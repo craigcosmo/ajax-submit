@@ -2,13 +2,11 @@
 	$.fn.ajaxSubmit = function(options){
 		var defaults = {
 			url:'',
-			loader:'.loading',
-			preventSubmit:'submiting',
 			submitButton:'.submitBtn',
 			dataType:'json',
 			onSubmit:function(){return true;},
-			success:function(i){},
-			error:function(i){},
+			onSuccess:function(i){},
+			onError:function(i){},
 			data:'',
 			varData:'',
 			resubmisable:false
@@ -20,22 +18,13 @@
 			var submisable= true;
 			var button = $this.find(o.submitButton);
 			//console.log($this.attr('class'));
-			function loading() {
-				if($(o.loader, $this).length){$(o.loader, $this).toggle();}
-			}
-			function loading2() {
-				if($this.siblings(o.loader).length){$this.siblings(o.loader).toggle();}
-			}
 			
 			if($this.is('form')){
 				$this.submit(function(e){
 					e.preventDefault();
 					if(submisable){
 						submisable = false;
-						loading();
-						$('.error').hide();
 						if(o.onSubmit.call(this)==false){
-							loading();
 							submisable =true;
 							return;				
 						}
@@ -55,19 +44,16 @@
 						
 						$.post(o.url,varData + data + $this.serialize() ,
 						function(i){
-							if(i.status == 'success' && o.dataType == 'json'){
-								$('.error').hide();
-								loading();
-								o.success.call(this, i);
+							// check if returned data is json
+							if(i.status == 'ok' && o.dataType == 'json'){
+								o.onSuccess.call(this, i);
 							}
 							else if(i.status == 'error' && o.dataType == 'json'){
-								loading();
-								o.error.call(this, i);
+								o.onError.call(this, i);
 								submisable =true;
 							}
 							else{
-								loading();
-								o.success.call(this, i);
+								o.onSuccess.call(this, i);
 							}
 						},o.dataType);
 					}
@@ -83,33 +69,30 @@
 				$this.find('input[type="checkbox"], input[type="radio"], textarea, select').bind('doit',function(){
 					submisable = true;
 				});
-				button.live('click',function(e){
-					$(e.target).closest('form').submit();
+				$this.on('click', button,function(e){
+					button.closest('form').submit();
 				});
 				
 			}
 			else{
-				if(!$this.hasClass(o.preventSubmit)){
-					$this.addClass(o.preventSubmit);
+				if(!$this.hasClass('submiting')){
+					$this.addClass('submiting');
 					$this.click(function(e){e.preventDefault();});//if element is a link
-					loading2();
 					o.onSubmit.call(this);
 					$.post(o.url,o.data ,
 					function(i){
-						if(i.status == 'success' && o.dataType == 'json'){
-							loading2();
-							o.success.call(this, i);
-							if(o.resubmisable){$this.removeClass(o.preventSubmit);}
+						if(i.status == 'ok' && o.dataType == 'json'){
+							o.onSuccess.call(this, i);
+							// alert('d');
+							if(o.resubmisable){$this.removeClass('submiting');}
 						}
 						else if(i.status == 'error' && o.dataType == 'json'){
-							loading2();
-							o.error.call(this, i);
-							$this.removeClass(o.preventSubmit);
+							o.onError.call(this, i);
+							$this.removeClass('submiting');
 						}
 						else{
-							loading2();
-							o.success.call(this, i);
-							if(o.resubmisable){$this.removeClass(o.preventSubmit);}
+							o.onSuccess.call(this, i);
+							if(o.resubmisable){$this.removeClass('submiting');}
 						}
 					},o.dataType);
 				}
