@@ -8,13 +8,14 @@
 			onSuccess:function(i){},
 			onError:function(i){},
 			data:'',
-			resubmisable:false
+			resubmisable:true
 		},
 		o = $.extend({},defaults, options);
 		
 		return this.each(function(){
 			var $this=$(this);
 			var data ='';
+			// var data;
 			var isForm = $this.is('form') ==true ? true : false;
 			//console.log($this.attr('class'));
 
@@ -47,7 +48,10 @@
 				$this.submit(function(e){
 					e.preventDefault();
 					if($this.hasClass(o.preventSubmit)){ 
-						console.log('can not submit');
+						// console.log('can not submit');
+						//cmd enter while cusor in the text input will trigger this, 
+						// because the input take enter as one comnand.
+						// we put end+cmd is another command.
 						return;
 					}
 					$this.addClass(o.preventSubmit);
