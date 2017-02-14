@@ -1,0 +1,65 @@
+{
+	"parser": "babel-eslint",
+	"parserOptions": {
+		"ecmaFeatures": {
+			"jsx": true,
+			"modules": true
+		}
+	},
+	"env": {
+		"browser": true,
+		"es6": true
+	},
+	"plugins": [
+		"json"
+	],
+	"globals": {
+		"localStorage": true,
+		"google": true,
+		"process": true,
+		"__dirname":true,
+		"describe":true,
+		"require":true,
+		"module":true,
+		"it":true,
+		"jQuery":true
+	},
+	"rules": {
+		"quote-props": ["off", "as-needed"],
+		"no-unused-vars": ["off"],
+		"no-mixed-spaces-and-tabs": "warn",
+		"jsx-quotes": ["warn", "prefer-double"],
+		"quotes": ["warn", "single"],
+		"comma-dangle": ["warn", "only-multiline"],
+		"no-unneeded-ternary": "off",
+		"semi": ["warn", "never"],
+		"no-underscore-dangle": "warn",
+		"no-cond-assign": "error",
+		"no-constant-condition" :"error",
+		"no-control-regex" : "error",
+		"no-dupe-args" : "error",
+		"no-dupe-keys" : "error",
+		"no-duplicate-case" : "error",
+		"no-extra-semi" : "error",
+		"no-func-assign" : "error",
+		"no-invalid-regexp" : "error",
+		"no-regex-spaces" : "error",
+		"no-sparse-arrays" : "error",
+		"no-unreachable" : "error",
+		"valid-typeof" : "error",
+		"no-undef": "error",
+		"no-spaced-func": "error",
+		"no-whitespace-before-property": "error",
+		"constructor-super": "error",
+		"no-const-assign": "error",
+		"no-this-before-super": "error",
+		"no-useless-computed-key": "error",
+		"no-var": "error",
+		"max-depth": ["error", 3],
+		"max-nested-callbacks": ["error", 3],
+		"max-params": ["error", 4],
+		"new-parens": "error",
+		"no-nested-ternary": "error"
+	}
+}
+
